@@ -1,0 +1,7 @@
+node_modules
+package-lock.json
+config.json
+index_preview.html
+logs/*
+.replit
+replix.nix

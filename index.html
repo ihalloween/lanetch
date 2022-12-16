@@ -1,0 +1,71 @@
+<html lang='en'>
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Discord User Watcher</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body class="d-flex h-100 text-bg-dark">
+    <div class="d-flex w-100 h-100 mx-auto flex-column">
+        <nav class="p-3 text-bg-dark mb-auto">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none fw-bold pe-3">Discord User Watcher</a>
+        
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
+                    <li><a href="https://github.com/Benni0109/Discord-User-Watcher" class="nav-link px-2 text-white" target="_blank">Github</a></li>
+                </ul>
+        
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="/setUser" method="post">
+                    <input type="search" name="userId" class="form-control form-control-dark text-bg-dark" placeholder="Enter UserId" aria-label="Search" required>
+                </form>
+        
+                </div>
+            </div>
+        </nav>
+
+        <main class="d-flex flex-wrap align-items-center justify-content-center" style="margin-top: -150px;">
+            <div class="modal-content shadow profileBanner">
+                <div class="modal-body shadow rounded-3 pb-5">
+                    <div>
+                        <div class="profileImage">
+                            <img class="w-100 h-100">
+                        </div>
+                        <div class="profileInfo">
+                            <img>
+                        </div>
+                    </div>
+                    <b class="username text-start"></b>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-auto text-center text-white-50">
+        <p>created with &#60;3 by benniblot</p>
+        </footer>
+    </div>
+
+    <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script>
+        function getData() {
+            const req = $.post("/getStatus").done(function(responseJSON) {
+                $(".profileBanner")[0].style.backgroundImage = `url(${responseJSON.profileBanner})`;
+                $(".profileBanner")[0].style.backgroundColor = `${responseJSON.profileBannerAccentColor}`;
+                $(".profileBanner")[0].style.height = `${responseJSON.profileBannerHeight}px`;
+                $("img")[0].setAttribute("src",responseJSON.profileImage);
+                $("img")[0].setAttribute("alt",responseJSON.username + '`s profile image');
+                $("img")[1].setAttribute("src",responseJSON.statusIcon);
+                $("img")[1].setAttribute("alt",responseJSON.userStatus);
+                $(".profileImage")[0].style.marginTop = `${responseJSON.imageMargin}px`;
+                $(".username")[0].innerHTML = responseJSON.username + `<p class="discriminator">#${responseJSON.discriminator}</p>`;
+            });
+        }
+        getData();
+        setInterval(function(){getData();}, 1000); // refreshing data
+    </script>
+</body>
+</html>
