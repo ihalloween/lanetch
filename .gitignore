@@ -4,4 +4,4 @@ config.json
 index_preview.html
 logs/*
 .replit
-replix.nix
+replit.nix
